@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 # Require shoulda-matchers and config it with Rails and RSpec
 require 'shoulda-matchers'
+require 'database_cleaner'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -34,6 +35,16 @@ end
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
+  config.use_transactional_fixtures = false
+
+  config.before :each do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

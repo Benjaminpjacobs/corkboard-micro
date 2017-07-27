@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1.2'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 gem 'mongoid'
+gem 'faker'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -46,4 +47,5 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'pry-rails'
+  gem 'database_cleaner'
 end
