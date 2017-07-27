@@ -39,7 +39,7 @@ RSpec.describe "Records" do
     expect(records.last[:name]).to eq(record2.name)
   end
 
-  scenario "Successfully POST record at api/v1/record" do
+  scenario "POST record at api/v1/record successfully " do
 
     record1 = build(:record, name: "Cooking")
     expect(Record.count).to eq(0)
@@ -58,7 +58,7 @@ RSpec.describe "Records" do
     
   end
 
-  scenario "Unsuccessfully POST record at api/v1/record" do
+  scenario "POST record at api/v1/record unsuccesfully" do
 
     record1 = build(:record, name: "Cooking")
     expect(Record.count).to eq(0)
@@ -76,7 +76,7 @@ RSpec.describe "Records" do
     expect(record[:message][:local_id]).to eq(["can't be blank"])
   end
 
-  scenario "DELETE record at api/v1/record" do
+  scenario "DELETE record at api/v1/record/:id" do
 
     record1 = create(:record)
     expect(Record.count).to eq(1)
@@ -86,5 +86,35 @@ RSpec.describe "Records" do
     expect(response.status).to eq(204)
     expect(Record.count).to eq(0)
 
+  end
+
+  scenario "UPDATE record at api/v1/record/:id" do
+
+    record1 = create(:record)
+    expect(Record.count).to eq(1)
+
+    put "/api/v1/records/#{record1.id}?record[name]=new+name"
+    
+    expect(response).to be_success 
+    expect(response.status).to eq(202)
+    record = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(record[:record][:name]).to eq('new name')
+    expect(record[:record][:uri]).to eq(record1.uri)
+    expect(record[:record][:slug]).to eq(record1.slug)
+    expect(record[:record][:object]).to eq(record1.object)
+    expect(record[:record][:local_id]).to eq(record1.local_id)
+  end
+  
+  scenario "UPDATE record at api/v1/record/:id" do
+
+    record1 = create(:record, name: "Cleaning")
+    record2 = create(:record)
+
+    put "/api/v1/records/#{record2.id}?record[name]=Cleaning"
+    
+    expect(response.status).to eq(400)
+    record = JSON.parse(response.body, symbolize_names: true)
+    expect(record[:message][:name]).to eq(["is already taken"])
   end
 end

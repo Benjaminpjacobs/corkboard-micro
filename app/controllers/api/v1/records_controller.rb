@@ -21,6 +21,21 @@ class Api::V1::RecordsController < ApplicationController
     head :no_content  
   end
 
+  def update
+    record = Record.find(params[:id])
+    if record.update(record_params)
+      render json: {
+        status: 202,
+        message: "Record Updated",
+        record: record
+      }, status: 202
+    else
+      render json: {
+        status: 400,
+        message: record.errors.messages
+      }, :status => 400
+    end
+  end
   private
     def record_params
       params.require(:record).permit(:name, :object, :local_id, :uri, :slug)
