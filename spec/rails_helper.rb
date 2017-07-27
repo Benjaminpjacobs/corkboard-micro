@@ -42,7 +42,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.after :each do
     DatabaseCleaner.clean
   end
   # RSpec Rails can automatically mix in different behaviours to your tests

@@ -1,9 +1,14 @@
 FactoryGirl.define do
   factory :record do
-    name "Home Improvement"
-    object "Industry"
-    local_id 1
-    slug "home-improvement"
-    uri "hire/home-improvement"
+    name {Faker::Commerce.department(1)}
+    object {Faker::Commerce.department(1)}
+    local_id {generate(:local_id)}
+    slug {Faker::Commerce.department(1)}
+    uri {Faker::Commerce.department(1)}
   end
+
+  sequence :local_id do |i|
+    i
+  end
+
 end
