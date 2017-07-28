@@ -37,6 +37,7 @@ class Api::V1::RecordsController < ApplicationController
       }, status: 400
     end
   end
+  
   private
     def record_params
       params.require(:record).permit(:name, :object, :local_id, :uri, :slug)
