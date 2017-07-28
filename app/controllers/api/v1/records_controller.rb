@@ -1,6 +1,7 @@
 class Api::V1::RecordsController < ApplicationController
   def index
-    render json: Record.where(name: /#{params[:query]}/i).to_a
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    render json: Record.where(name: /#{params[:query]}/i).limit(6).to_a unless params[:query].empty?
   end
 
   def create
@@ -33,7 +34,7 @@ class Api::V1::RecordsController < ApplicationController
       render json: {
         status: 400,
         message: record.errors.messages
-      }, :status => 400
+      }, status: 400
     end
   end
   private
