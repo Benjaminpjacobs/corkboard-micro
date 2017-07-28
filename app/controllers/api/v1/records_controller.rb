@@ -1,7 +1,7 @@
 class Api::V1::RecordsController < ApplicationController
   def index
     response.headers['Access-Control-Allow-Origin'] = '*'
-    render json: Record.where(name: /#{params[:query]}/i).limit(6).to_a unless params[:query].empty
+    render json: Record.where(name: /#{params[:query]}/i).limit(6).to_a unless params[:query].empty?
   end
 
   def create
