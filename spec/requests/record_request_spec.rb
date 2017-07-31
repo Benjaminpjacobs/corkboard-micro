@@ -40,12 +40,13 @@ RSpec.describe "Records" do
   end
 
   scenario "POST record at api/v1/record successfully " do
-
     record1 = build(:record, name: "Cooking")
+
+    token = JsonWebToken.encode(name: record1.name, object: record1.object, local_id: record1.local_id, uri: record1.uri, slug: record1.slug)
+
     expect(Record.count).to eq(0)
 
-    post "/api/v1/records?record[name]=#{record1.name}&record[object]=#{record1.object}&record[local_id]=#{record1.local_id}&record[uri]=#{record1.uri}&record[slug]=#{record1.slug}"
-    
+    post "/api/v1/records?token=#{token}"
 
     expect(response).to be_success
     record = JSON.parse(response.body, symbolize_names: true) 
@@ -77,11 +78,13 @@ RSpec.describe "Records" do
   end
 
   scenario "DELETE record at api/v1/record/:id" do
-
     record1 = create(:record)
+
+    token = JsonWebToken.encode(id: record1._id)
+
     expect(Record.count).to eq(1)
 
-    delete "/api/v1/records/#{record1.id}"
+    delete "/api/v1/record?token=#{token}"
     
     expect(response.status).to eq(204)
     expect(Record.count).to eq(0)
@@ -91,9 +94,10 @@ RSpec.describe "Records" do
   scenario "UPDATE record at api/v1/record/:id" do
 
     record1 = create(:record)
+    token = JsonWebToken.encode(name: "new name")
     expect(Record.count).to eq(1)
 
-    put "/api/v1/records/#{record1.id}?record[name]=new+name"
+    put "/api/v1/records/#{record1.id}?token=#{token}"
     
     expect(response).to be_success 
     expect(response.status).to eq(202)
@@ -110,8 +114,9 @@ RSpec.describe "Records" do
 
     record1 = create(:record, name: "Cleaning")
     record2 = create(:record)
+    token = JsonWebToken.encode(name: "Cleaning")
 
-    put "/api/v1/records/#{record2.id}?record[name]=Cleaning"
+    put "/api/v1/records/#{record2.id}?token=#{token}"
     
     expect(response.status).to eq(400)
     record = JSON.parse(response.body, symbolize_names: true)

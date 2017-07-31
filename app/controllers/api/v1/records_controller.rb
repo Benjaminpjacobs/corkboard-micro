@@ -1,7 +1,7 @@
 class Api::V1::RecordsController < ApplicationController
   def index
     response.headers['Access-Control-Allow-Origin'] = '*'
-    render json: Record.where(name: /#{params[:query]}/i).limit(6).to_a unless params[:query].empty?
+    render json: Record.where(name: /#{params[:query]}/i).limit(6).to_a unless params[:query] && params[:query].empty?
   end
 
   def create
@@ -17,7 +17,7 @@ class Api::V1::RecordsController < ApplicationController
   end
   
   def destroy
-    record = Record.find(params[:id])
+    record = Record.find(record_params)
     record.destroy
     head :no_content  
   end
@@ -40,6 +40,7 @@ class Api::V1::RecordsController < ApplicationController
   
   private
     def record_params
-      params.require(:record).permit(:name, :object, :local_id, :uri, :slug)
+      JsonWebToken.decode(params[:token]).except(:exp) if params[:token]
+      # params.require(:record).permit(:name, :object, :local_id, :uri, :slug)
     end
 end
