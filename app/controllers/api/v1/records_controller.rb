@@ -5,8 +5,6 @@ class Api::V1::RecordsController < ApplicationController
   end
 
   def create
-    binding.pry
-    
     record = Record.new(record_params)
     if record.save
       render json: record
