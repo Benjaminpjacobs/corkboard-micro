@@ -88,16 +88,15 @@ RSpec.describe "Records" do
     
     expect(response.status).to eq(204)
     expect(Record.count).to eq(0)
-
   end
 
   scenario "UPDATE record at api/v1/record/:id" do
 
     record1 = create(:record)
-    token = JsonWebToken.encode(name: "new name")
+    token = JsonWebToken.encode(id: record1.id, name: "new name")
     expect(Record.count).to eq(1)
 
-    put "/api/v1/records/#{record1.id}?token=#{token}"
+    put "/api/v1/record?token=#{token}"
     
     expect(response).to be_success 
     expect(response.status).to eq(202)
@@ -114,9 +113,9 @@ RSpec.describe "Records" do
 
     record1 = create(:record, name: "Cleaning")
     record2 = create(:record)
-    token = JsonWebToken.encode(name: "Cleaning")
+    token = JsonWebToken.encode(id: record2.id, name: "Cleaning")
 
-    put "/api/v1/records/#{record2.id}?token=#{token}"
+    put "/api/v1/record?token=#{token}"
     
     expect(response.status).to eq(400)
     record = JSON.parse(response.body, symbolize_names: true)

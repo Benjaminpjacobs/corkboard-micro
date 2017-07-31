@@ -23,8 +23,8 @@ class Api::V1::RecordsController < ApplicationController
   end
 
   def update
-    record = Record.find(params[:id])
-    if record.update(record_params)
+    record = Record.find(record_params[:id])
+    if record.update(record_params.except(:id))
       render json: {
         status: 202,
         message: "Record Updated",
