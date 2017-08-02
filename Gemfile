@@ -14,6 +14,7 @@ gem 'kaminari'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'figaro'
 gem 'jwt'
+ gem 'newrelic_rpm'
 
 # gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
@@ -22,6 +23,12 @@ gem 'jwt'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'capistrano'
+  gem 'capistrano-rails', '~> 1.3'
+  gem 'capistrano-rvm', '~> 0.1.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-nginx'
+  gem 'capistrano3-puma'
 end
 
 group :development, :test do
