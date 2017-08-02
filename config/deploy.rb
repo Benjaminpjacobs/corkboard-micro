@@ -7,7 +7,7 @@ set :application, "corkboard-micro"
 set :repo_url, "git@github.com:Benjaminpjacobs/corkboard-micro.git"
 set :use_sudo, true
 
-set :branch, 'master'
+set :branch, 'capistrano'
 
 # Default branch is :setup-capistrano
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
