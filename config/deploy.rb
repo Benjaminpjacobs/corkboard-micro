@@ -1,6 +1,6 @@
 # config valid only for current version of Capistrano
 
-server '104.197.250.20', user: 'deploy', port: 22, roles: %w{web app db}
+server '104.198.18.105', user: 'deploy', port: 22, roles: %w{web app db}
 
 
 set :application, "corkboard-micro"

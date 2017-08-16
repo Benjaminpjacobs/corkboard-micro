@@ -17,8 +17,7 @@ class Api::V1::RecordsController < ApplicationController
   end
   
   def destroy
-    record = Record.find(record_params)
-    record.destroy
+    record = Record.destroy_all(record_params)
     head :no_content  
   end
 
